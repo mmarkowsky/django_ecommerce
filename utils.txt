@@ -1,0 +1,10 @@
+adicionar em settings > TEMPLATES > a pasta de templates para que reconheça os htmls
+
+pasos
+
+    crear apps
+    registrar > settings a apps
+    models
+        makemigrations
+        migrate
+    admin(dentro da app ) > adicionar admin.site.register(class_name)
