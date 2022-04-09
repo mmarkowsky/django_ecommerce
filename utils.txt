@@ -8,3 +8,5 @@ pasos
         makemigrations
         migrate
     admin(dentro da app ) > adicionar admin.site.register(class_name)
+
+test_gib
