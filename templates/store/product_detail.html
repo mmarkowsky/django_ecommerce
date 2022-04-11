@@ -59,7 +59,9 @@
             <aside class="col-md-6">
               <article class="gallery-wrap">
                 <div class="img-big-wrap">
-                  <a href="#"><img src="{{single_product.product_image.url}}" /></a>
+                  <a href="#"
+                    ><img src="{{single_product.product_image.url}}"
+                  /></a>
                 </div>
                 <!-- img-big-wrap.// -->
               </article>
@@ -126,10 +128,21 @@
                 {%if single_product.stock <= 0 %}
                 <h4>Producto no disponible</h4>
                 {%else%}
-                <a href="./product-detail.html" class="btn btn-primary">
-                  <span class="text">Add to cart</span>
-                  <i class="fas fa-shopping-cart"></i>
-                </a>
+                  {%if in_cart%}
+                    <span class="btn btn-success">Produto ja adicionado</span>
+                    <a href="{%url 'cart'%}" class="btn btn-outline-primary">
+                      <span class="text">Ver carrinho</span>
+                      <i class="fas fa-eye"></i>
+                    </a>
+                  {%else%}
+                    <a
+                    href="{%url 'add_cart' single_product.id%}"
+                    class="btn btn-primary"
+                    >
+                      <span class="text">Agregar al carrito</span>
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  {%endif%}
                 {%endif%}
               </article>
               <!-- product-info-aside .// -->
