@@ -28,7 +28,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {%for item in cart_items%}
+                {%for item in cart_items%}
                   <tr>
                     <td>
                       <figure class="itemside align-items-center">
@@ -45,7 +45,11 @@
                             >{{item.product.product_name}}</a
                           >
                           <p class="text-muted small">
-                            {{item.product.description}}
+                            {%if item.variations.all%}
+                              {%for variation in item.variations.all%}
+                                {{variation.variation_category}}: {{variation.variation_value}}
+                              {%endfor%}
+                            {%endif%}
                           </p>
                         </figcaption>
                       </figure>
@@ -55,28 +59,33 @@
                       <div class="col">
                         <div class="input-group input-spinner">
                           <div class="input-group-prepend">
-                            <a
-                              href="{% url 'remove_cart' item.product.id %}"
-                              class="btn btn-light"
-                              type="button"
-                              id="button-minus"
-                            >
-                              <i class="fa fa-minus"></i>
-                            </a>
+                            <form action="{% url 'remove_cart' item.product.id %}" method="post">
+                              {%csrf_token%}
+                              {%for item in cart_items%} 
+                                <input type="hidden" name="{{item.variation_category | lower }}" value="{{item.variation_value | capfirst}}">
+                              {%endfor%}
+                              <button
+                                class="btn btn-light"
+                                type="submit"
+                                id="button-minus">
+                                <i class="fa fa-minus"></i>
+                              </button>
+                            </form>
                           </div>
-                          <input
-                            type="text"
-                            class="form-control"
-                            value="{{ item.quantity }}"
-                          />
+                          <input type="text" class="form-control" value="{{ item.quantity }}" />
                           <div class="input-group-append">
-                            <a
-                              href="{% url 'add_cart' item.product.id %}"
-                              class="btn btn-light"
-                              type="button"
-                              id="button-plus"
-                            >
-                              <i class="fa fa-plus"></i>
+                            <form action="{% url 'add_cart' item.product.id %}" method="post">
+                              {%csrf_token%}
+                              {%for item in cart_items%} 
+                                <input type="hidden" name="{{item.variation_category | lower }}" value="{{item.variation_value | capfirst}}">
+                              {%endfor%}
+                              <button
+                                class="btn btn-light"
+                                type="submit"
+                                id="button-plus">
+                                <i class="fa fa-plus"></i>
+                              </button>
+                            </form>
                             </a>
                           </div>
                         </div>
@@ -132,7 +141,7 @@
                     height="26"
                   />
                 </p>
-                <a href="./place-order.html" class="btn btn-primary btn-block">
+                <a href="{% url 'checkout' %}" class="btn btn-primary btn-block">
                   Checkout
                 </a>
                 <a href="{%url 'store'%}" class="btn btn-light btn-block"

@@ -1,0 +1,9 @@
+{% autoescape off %}
+
+Hola {{user.first_name}}
+
+http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+Saludos, Maxi Polaquem!
+
+{% endautoescape %}
